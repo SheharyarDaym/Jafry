@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Jaafry!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            text-align: center;
+            z-index: 10;
+            perspective: 1200px;
+            padding: 5vw;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            width: 90vw;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .birthday-text {
+            font-size: clamp(2rem, 8vw, 4.5rem);
+            color: #e0e0e0;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px #00d4ff;
+            animation: pulseGlow 2s ease-in-out infinite alternate;
+            margin-bottom: 2vw;
+            font-weight: 700;
+        }
+
+        .name {
+            font-size: clamp(3rem, 12vw, 6.5rem);
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: clamp(2px, 2vw, 10px);
+            text-shadow: 0 0 30px #ffd700, 0 0 60px #ff3366;
+            animation: scalePulse 3s infinite ease-in-out;
+            transform-style: preserve-3d;
+            position: relative;
+            z-index: 2;
+        }
+
+        .message {
+            font-size: clamp(1rem, 4vw, 1.8rem);
+            color: #e0e0e0;
+            margin-top: 3vw;
+            padding: 2vw 4vw;
+            background: linear-gradient(45deg, rgba(255, 51, 102, 0.2), rgba(0, 212, 255, 0.2));
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+            animation: fadeSlide 1.5s ease-out forwards;
+            opacity: 0;
+            font-weight: 500;
+        }
+
+        .image-placeholder {
+            width: clamp(120px, 50vw, 250px);
+            height: clamp(120px, 50vw, 250px);
+            margin: 6vw auto 2vw;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: imageReveal 2s ease-out forwards, imageGlow 2s infinite alternate;
+            opacity: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Changed to 'contain' for full visibility */
+            border-radius: 50%;
+        }
+
+        .cube {
+            position: absolute;
+            width: clamp(80px, 30vw, 150px);
+            height: clamp(80px, 30vw, 150px);
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            animation: rotateCube 10s infinite linear;
+            z-index: 0; /* Behind the image */
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid #ffd700;
+            box-shadow: 0 0 20px #ffd700;
+            opacity: 0.7;
+        }
+
+        .front  { transform: translateZ(clamp(40px, 15vw, 75px)); }
+        .back   { transform: rotateY(180deg) translateZ(clamp(40px, 15vw, 75px)); }
+        .right  { transform: rotateY(90deg) translateZ(clamp(40px, 15vw, 75px)); }
+        .left   { transform: rotateY(-90deg) translateZ(clamp(40px, 15vw, 75px)); }
+        .top    { transform: rotateX(90deg) translateZ(clamp(40px, 15vw, 75px)); }
+        .bottom { transform: rotateX(-90deg) translateZ(clamp(40px, 15vw, 75px)); }
+
+        .firework {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: fireworkBurst 3s infinite;
+            box-shadow: 0 0 15px currentColor;
+        }
+
+        .firework:nth-child(odd)  { background: #ff3366; }
+        .firework:nth-child(even) { background: #00d4ff; }
+
+        .firework:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+        .firework:nth-child(2) { top: 25%; left: 85%; animation-delay: 0.8s; }
+        .firework:nth-child(3) { top: 75%; left: 20%; animation-delay: 1.6s; }
+        .firework:nth-child(4) { top: 65%; left: 75%; animation-delay: 2.4s; }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffffff);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffd700;
+            animation: particleRise 2.5s infinite ease-out;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 30px;
+            background: linear-gradient(135deg, #ff3366, #00d4ff);
+            animation: confettiRain 5s infinite linear;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(255, 51, 102, 0.7);
+        }
+
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px #00d4ff; }
+            100% { text-shadow: 0 0 40px rgba(255, 255, 255, 1), 0 0 80px #00d4ff, 0 0 120px #ff3366; }
+        }
+
+        @keyframes scalePulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.15) rotate(3deg); }
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(60px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes imageReveal {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes imageGlow {
+            0% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
+            100% { box-shadow: 0 0 50px rgba(255, 215, 0, 0.8), 0 0 70px rgba(0, 212, 255, 0.5); }
+        }
+
+        @keyframes rotateCube {
+            0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+            100% { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+        }
+
+        @keyframes fireworkBurst {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(2); opacity: 1; box-shadow: 0 0 30px currentColor; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        @keyframes particleRise {
+            0% { transform: translate(var(--x-start), 100vh) scale(0.5); opacity: 1; }
+            100% { transform: translate(var(--x-end), -100vh) scale(1); opacity: 0; }
+        }
+
+        @keyframes confettiRain {
+            0% { transform: translateY(-100vh) rotate(0deg) translateX(0); }
+            100% { transform: translateY(100vh) rotate(1080deg) translateX(var(--drift)); }
+        }
+
+        .orbit {
+            position: absolute;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            animation: orbitRotate 15s infinite linear;
+        }
+
+        @keyframes orbitRotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Media Queries for Smaller Screens */
+        @media (max-width: 600px) {
+            .container {
+                padding: 3vw;
+            }
+            .cube {
+                width: 30vw;
+                height: 30vw;
+            }
+            .cube-face {
+                width: 30vw;
+                height: 30vw;
+            }
+            .front, .back, .right, .left, .top, .bottom {
+                transform: translateZ(15vw);
+            }
+            .orbit {
+                width: clamp(200px, 80vw, 400px) !important;
+                height: clamp(200px, 80vw, 400px) !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="birthday-text">Happy Birthday</div>
+        <div class="name">Jaafry!</div>
+        <div class="message">Hum samaj rahe Jaafry Birthday mana rha lakin...</div>
+        <div class="message">BTW Jafry ka scene pta?</div>
+        
+        <!-- Image Placeholder -->
+        <div class="image-placeholder">
+            <img src="jafry.jpeg" alt="Jaafry's Picture">
+        </div>
+        
+        <!-- 3D Cube -->
+        <div class="cube">
+            <div class="cube-face front"></div>
+            <div class="cube-face back"></div>
+            <div class="cube-face right"></div>
+            <div class="cube-face left"></div>
+            <div class="cube-face top"></div>
+            <div class="cube-face bottom"></div>
+        </div>
+        
+        <!-- Fireworks -->
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+        <div class="firework"></div>
+
+        <!-- Particles -->
+        <div class="particle" style="--x-start: -50px; --x-end: 50px;"></div>
+        <div class="particle" style="--x-start: 0px; --x-end: -60px;"></div>
+        <div class="particle" style="--x-start: 60px; --x-end: -20px;"></div>
+    </div>
+
+    <!-- Confetti -->
+    <div class="confetti" style="left: 5%; animation-delay: 0s; --drift: 30px;"></div>
+    <div class="confetti" style="left: 15%; animation-delay: 0.5s; --drift: -40px;"></div>
+    <div class="confetti" style="left: 25%; animation-delay: 1s; --drift: 20px;"></div>
+    <div class="confetti" style="left: 35%; animation-delay: 1.5s; --drift: -30px;"></div>
+    <div class="confetti" style="left: 45%; animation-delay: 2s; --drift: 50px;"></div>
+    <div class="confetti" style="left: 55%; animation-delay: 2.5s; --drift: -20px;"></div>
+    <div class="confetti" style="left: 65%; animation-delay: 3s; --drift: 40px;"></div>
+    <div class="confetti" style="left: 75%; animation-delay: 3.5s; --drift: -25px;"></div>
+    <div class="confetti" style="left: 85%; animation-delay: 4s; --drift: 35px;"></div>
+
+    <!-- Orbit Rings -->
+    <div class="orbit" style="width: clamp(200px, 80vw, 400px); height: clamp(200px, 80vw, 400px); top: 50%; left: 50%; animation-delay: 0s;"></div>
+    <div class="orbit" style="width: clamp(300px, 120vw, 600px); height: clamp(300px, 120vw, 600px); top: 50%; left: 50%; animation-delay: -5s;"></div>
+
+    <script>
+        // Randomize particle paths
+        document.querySelectorAll('.particle').forEach(p => {
+            const xStart = Math.random() * 200 - 100;
+            const xEnd = Math.random() * 200 - 100;
+            p.style.setProperty('--x-start', `${xStart}px`);
+            p.style.setProperty('--x-end', `${xEnd}px`);
+            p.style.animationDelay = `${Math.random() * 2}s`;
+        });
+    </script>
+</body>
+</html>
